@@ -35,10 +35,15 @@ unless options[:points] && options[:reason] && options[:to]
 end
 
 options[:points].times do
-  RestClient.post(
+  response = RestClient.post(
     "https://bonus.ly/api/v1/bonuses?access_token=#{ENV['TOKEN']}",
     { reason: "+1 #{options[:to]} #{options[:reason]}" }.to_json,
     content_type: :json,
     accept: :json,
   )
+  unless response.code == 200
+    puts 'Oh no got a bad response!'
+    puts response
+    exit
+  end
 end
