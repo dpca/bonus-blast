@@ -3,6 +3,7 @@
 require 'rest-client'
 require 'optparse'
 require 'dotenv'
+require 'json'
 
 Dotenv.load
 
@@ -21,6 +22,10 @@ OptionParser.new do |opts|
 
   opts.on('--reason STRING', 'Reason for giving, e.g. "lol #wat"') do |r|
     options[:reason] = r
+  end
+
+  opts.on('--delay SECONDS', Float, 'Seconds to wait between each bonus') do |s|
+    options[:delay] = s
   end
 
   opts.on('-h', '--help', 'Displays help') do
@@ -47,4 +52,5 @@ options[:points].times do
       exit
     end
   end
+  sleep(options[:delay]) if options[:delay]
 end
